@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.539
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3IR", "3IR\3IR.csproj", "{47896F9C-7C26-4D9A-9170-607F9AB5992C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{47896F9C-7C26-4D9A-9170-607F9AB5992C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47896F9C-7C26-4D9A-9170-607F9AB5992C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47896F9C-7C26-4D9A-9170-607F9AB5992C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47896F9C-7C26-4D9A-9170-607F9AB5992C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3AAB544D-1A0E-4780-91C4-097801213B0C}
+	EndGlobalSection
+EndGlobal
