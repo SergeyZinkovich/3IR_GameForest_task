@@ -14,16 +14,19 @@ namespace _3IR
     {
         List<List<int>> map = new List<List<int>>();
         Graphics g;
+        Pair<int, int> selected_item = new Pair<int, int>(-1, -1);
 
         public Form1()
         {
             InitializeComponent();
             pictureBox1.Image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             g = Graphics.FromImage(pictureBox1.Image);
-            List<List<int>> map = Generate_map(8, 8);
+            map = Generate_map(8, 8);
             Draw_field(map);
             Annihilate(ref map);
             Drop_elements(ref map);
+            Draw_field(map);
+            Regenerate_removed_items(ref map);
             Draw_field(map);
             int a = 1;
         }
@@ -46,6 +49,25 @@ namespace _3IR
             }
         }
 
+        private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
+        {
+            if ((e.Location.X >= 194) && (e.Location.X <= 642) && (e.Location.Y >= 44) && (e.Location.Y <= 492))
+            {
+                int j = (e.Location.X - 194) / 64;
+                int i = (e.Location.Y - 44) / 64;
+                if (((i == selected_item.first) && (Math.Abs(j - selected_item.second) == 1)) || ((j == selected_item.second) && (Math.Abs(i - selected_item.first) == 1)))
+                {
+                    Turn();
+                }
+                else
+                {
+                    selected_item.second = j;
+                    selected_item.first = i;
+                }
+                Draw_field(map);
+            }
+        }
+
         public void Draw_field(List<List<int>> field)
         {
             g.Clear(Color.White);
@@ -58,10 +80,20 @@ namespace _3IR
                         String name = "diamond_" + field[i][j].ToString();
                         Image image = new Bitmap((Image)Properties.Resources.ResourceManager.GetObject(name, Properties.Resources.Culture));
                         g.DrawImage(image, 194 + j * 64, 44 + i * 64);
+                        if ((i == selected_item.first) && (j == selected_item.second))
+                        {
+                            Pen pen = new Pen(Color.Red, 3);
+                            g.DrawRectangle(pen, 194 + j * 64, 44 + i * 64, 64, 64);
+                        }
                     }
                 }
             }
             pictureBox1.Invalidate();
+        }
+
+        public void Turn()
+        {
+
         }
 
         public List<List<int>> Generate_map(int n, int m)
@@ -76,6 +108,21 @@ namespace _3IR
                 }
             }
             return arr;
+        }
+
+        public void Regenerate_removed_items(ref List<List<int>> arr)
+        {
+            Random rnd = new Random();
+            for (int i = 0; i < arr.Count; i++)
+            {
+                for (int j = 0; j < arr[0].Count; j++)
+                {
+                    if (arr[i][j] == -1)
+                    {
+                        arr[i][j] = rnd.Next() % 5;
+                    }
+                }
+            }
         }
 
         public void Annihilate(ref List<List<int>> arr)

@@ -86,7 +86,9 @@
     <Content Include="Properties\diamond-2.png" />
     <Content Include="Properties\diamond-3.png" />
     <Content Include="Properties\diamond-4.png" />
-    <None Include="Resources\diamond-0.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
