@@ -51,13 +51,13 @@ namespace _3IR
 
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
-            if ((e.Location.X >= 194) && (e.Location.X <= 642) && (e.Location.Y >= 44) && (e.Location.Y <= 492))
+            if ((e.Location.X >= 194) && (e.Location.X <= 706) && (e.Location.Y >= 44) && (e.Location.Y <= 556))
             {
                 int j = (e.Location.X - 194) / 64;
                 int i = (e.Location.Y - 44) / 64;
                 if (((i == selected_item.first) && (Math.Abs(j - selected_item.second) == 1)) || ((j == selected_item.second) && (Math.Abs(i - selected_item.first) == 1)))
                 {
-                    Turn();
+                    Turn(selected_item.first, selected_item.second, i, j);
                 }
                 else
                 {
@@ -91,9 +91,20 @@ namespace _3IR
             pictureBox1.Invalidate();
         }
 
-        public void Turn()
+        public void Turn(int y1, int x1, int y2, int x2)
         {
-
+            int c = map[y1][x1];
+            map[y1][x1] = map[y2][x2];
+            map[y2][x2] = c;
+            if (!Annihilate(ref map))          
+            {
+                c = map[y1][x1];
+                map[y1][x1] = map[y2][x2];
+                map[y2][x2] = c;
+            }
+            Draw_field(map);
+            selected_item.first = -1;
+            selected_item.second = -1;
         }
 
         public List<List<int>> Generate_map(int n, int m)
@@ -125,7 +136,7 @@ namespace _3IR
             }
         }
 
-        public void Annihilate(ref List<List<int>> arr)
+        public bool Annihilate(ref List<List<int>> arr)
         {
             List<Pair<int, int>> delete_marks = new List<Pair<int, int>>();
             bool in_seq = false;
@@ -184,6 +195,8 @@ namespace _3IR
             {
                 arr[pair.first][pair.second] = -1;
             }
+
+            return delete_marks.Count != 0;
         }
 
         public void Drop_elements(ref List<List<int>> field)
