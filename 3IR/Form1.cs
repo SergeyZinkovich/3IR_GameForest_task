@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace _3IR
 {
@@ -22,12 +23,12 @@ namespace _3IR
             pictureBox1.Image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             g = Graphics.FromImage(pictureBox1.Image);
             engine = new Engine(8, 8);
-            Draw_field(engine.Get_map());
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-
+            Animation_helper.Iteration_inc();
+            Draw_field(engine.Get_map());
         }
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
@@ -45,12 +46,17 @@ namespace _3IR
 
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
+            if (Animation_helper.is_Animation_set())
+            {
+                return;
+            }
             if ((e.Location.X >= 194) && (e.Location.X <= 706) && (e.Location.Y >= 44) && (e.Location.Y <= 556))
             {
                 int j = (e.Location.X - 194) / 64;
                 int i = (e.Location.Y - 44) / 64;
                 if (((i == selected_item.first) && (Math.Abs(j - selected_item.second) == 1)) || ((j == selected_item.second) && (Math.Abs(i - selected_item.first) == 1)))
                 {
+                    Animation_helper.Init_swap_animation(selected_item.first, selected_item.second, i, j);
                     engine.Turn(selected_item.first, selected_item.second, i, j);
                     selected_item.second = -1;
                     selected_item.first = -1;
@@ -60,7 +66,6 @@ namespace _3IR
                     selected_item.second = j;
                     selected_item.first = i;
                 }
-                Draw_field(engine.Get_map());
             }
         }
 
@@ -75,7 +80,8 @@ namespace _3IR
                     {
                         String name = "diamond_" + field[i][j].ToString();
                         Image image = new Bitmap((Image)Properties.Resources.ResourceManager.GetObject(name, Properties.Resources.Culture));
-                        g.DrawImage(image, 194 + j * 64, 44 + i * 64);
+                        g.DrawImage(image, 194 + j * 64 + Animation_helper.Get_swap_coordinates(i, j).second,
+                            44 + i * 64 + Animation_helper.Get_swap_coordinates(i, j).first);
                         if ((i == selected_item.first) && (j == selected_item.second))
                         {
                             Pen pen = new Pen(Color.Red, 3);
