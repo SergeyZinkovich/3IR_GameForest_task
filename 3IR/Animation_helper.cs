@@ -77,10 +77,13 @@ namespace _3IR
 
         public static void Stop_animation()
         {
-            init_position.Clear();
-            destinations.Clear();
-            iteration = 0;
-            animation_set = false;
+            if (animation_set)
+            {
+                init_position.Clear();
+                destinations.Clear();
+                iteration = 0;
+                animation_set = false;
+            }
         }
 
         public static bool is_Animation_set()

@@ -13,16 +13,80 @@ namespace _3IR
 {
     public partial class Form1 : Form
     {
-        Graphics g;
-        Pair<int, int> selected_item = new Pair<int, int>(-1, -1);
-        Engine engine;
+        private int game_time_rest;
+        private Graphics g;
+        private Pair<int, int> selected_item;
+        private Engine engine;
+        private Button menuButton;
 
         public Form1()
         {
             InitializeComponent();
+            Show_menu();
+        }
+
+        public void Show_menu()
+        {
+            menuButton = new Button();
+            menuButton.Location = new Point(395, 290);
+            menuButton.Text = "Play";
+            menuButton.Width = 150;
+            menuButton.Height = 80;
+            menuButton.Click += Play_button_Click;
+            //this.Controls.Clear();
+            this.Controls.Add(menuButton);
+        }
+
+        public void Play_button_Click(object sender, EventArgs e)
+        {
+            Start_game();
+        }
+
+        public void Start_game()
+        {
+            menuButton.Hide();
+            menuButton.Enabled = false;
+            pictureBox1.Enabled = true;
+            label1.Show();
+            pictureBox1.Show();
+            timer1.Enabled = true;
+            timer2.Enabled = true;
+
             pictureBox1.Image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             g = Graphics.FromImage(pictureBox1.Image);
             engine = new Engine(8, 8);
+            game_time_rest = 5;
+            selected_item = new Pair<int, int>(-1, -1);
+        }
+
+        public void End_game()
+        {
+            pictureBox1.Enabled = false;
+            pictureBox1.Hide();
+            label1.Hide();
+            timer1.Enabled = false;
+            timer2.Enabled = false;
+
+            menuButton = new Button();
+            menuButton.Location = new Point(395, 290);
+            menuButton.Text = "Ok";
+            menuButton.Width = 150;
+            menuButton.Height = 80;
+            menuButton.Click += End_button_Click;
+            this.Controls.Add(menuButton);
+        }
+
+        public void End_button_Click(object sender, EventArgs e)
+        {
+            Close_endgame();
+            Show_menu();
+        }
+
+        public void Close_endgame()
+        {
+            Animation_helper.Stop_animation();
+            menuButton.Enabled = false;
+            menuButton.Hide();
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -91,6 +155,16 @@ namespace _3IR
                 }
             }
             pictureBox1.Invalidate();
+        }
+
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            game_time_rest--;
+            if (game_time_rest == 0)
+            {
+                End_game();
+            }
+            label1.Text = game_time_rest.ToString();
         }
     }
 }
