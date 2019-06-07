@@ -118,8 +118,17 @@ namespace _3IR
             return delete_marks.Count != 0;
         }
 
-        public void Drop_elements()
+        public List<List<Pair<int, int>>> Drop_elements()
         {
+            List<List<Pair<int, int>>> previous_pisition = new List<List<Pair<int, int>>>();
+            for (int i = 0; i < map.Count; i++)
+            {
+                previous_pisition.Add(new List<Pair<int, int>>());
+                for (int j = 0; j < map[0].Count; j++)
+                {
+                    previous_pisition[i].Add(new Pair<int, int>(i, j));
+                }
+            }
             for (int i = 0; i < map.Count; i++)
             {
                 for (int j = map[0].Count - 1; j >= 0; j--)
@@ -134,9 +143,11 @@ namespace _3IR
                             map[k + 1][i] = c;
                             k++;
                         }
+                        previous_pisition[k][j].first = i;
                     }
                 }
             }
+            return previous_pisition;
         }
 
         public bool Turn(int y1, int x1, int y2, int x2)

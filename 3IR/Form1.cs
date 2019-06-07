@@ -27,13 +27,12 @@ namespace _3IR
 
         public void Show_menu()
         {
-            menuButton = new Button();
+            menuButton = new Button();  //TODO: убрать пересоздание
             menuButton.Location = new Point(395, 290);
             menuButton.Text = "Play";
             menuButton.Width = 150;
             menuButton.Height = 80;
             menuButton.Click += Play_button_Click;
-            //this.Controls.Clear();
             this.Controls.Add(menuButton);
         }
 
@@ -46,7 +45,9 @@ namespace _3IR
         {
             menuButton.Hide();
             menuButton.Enabled = false;
+
             pictureBox1.Enabled = true;
+            label1.Enabled = true;
             label1.Show();
             pictureBox1.Show();
             timer1.Enabled = true;
@@ -63,6 +64,7 @@ namespace _3IR
         {
             pictureBox1.Enabled = false;
             pictureBox1.Hide();
+            label1.Enabled = false;
             label1.Hide();
             timer1.Enabled = false;
             timer2.Enabled = false;
