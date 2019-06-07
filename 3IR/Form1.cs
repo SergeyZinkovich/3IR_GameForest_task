@@ -56,7 +56,7 @@ namespace _3IR
             pictureBox1.Image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             g = Graphics.FromImage(pictureBox1.Image);
             engine = new Engine(8, 8);
-            game_time_rest = 5;
+            game_time_rest = 60;
             selected_item = new Pair<int, int>(-1, -1);
         }
 
@@ -122,8 +122,13 @@ namespace _3IR
                 int i = (e.Location.Y - 44) / 64;
                 if (((i == selected_item.first) && (Math.Abs(j - selected_item.second) == 1)) || ((j == selected_item.second) && (Math.Abs(i - selected_item.first) == 1)))
                 {
-                    Animation_helper.Init_swap_animation(selected_item.first, selected_item.second, i, j);
-                    engine.Turn(selected_item.first, selected_item.second, i, j);
+                    //Animation_helper.Init_swap_animation(selected_item.first, selected_item.second, i, j);
+                    //Animation_helper.Start_animation();
+                    if (engine.Turn(selected_item.first, selected_item.second, i, j))
+                    {
+                        Animation_helper.Init_gems_fall_animation(engine.Drop_elements());
+                        Animation_helper.Start_animation();
+                    }
                     selected_item.second = -1;
                     selected_item.first = -1;
                 }
@@ -146,8 +151,8 @@ namespace _3IR
                     {
                         String name = "diamond_" + field[i][j].ToString();
                         Image image = new Bitmap((Image)Properties.Resources.ResourceManager.GetObject(name, Properties.Resources.Culture));
-                        g.DrawImage(image, 194 + j * 64 + Animation_helper.Get_swap_coordinates(i, j).second,
-                            44 + i * 64 + Animation_helper.Get_swap_coordinates(i, j).first);
+                        g.DrawImage(image, 194 + Animation_helper.Get_coordinates(i, j).second,
+                            44 + Animation_helper.Get_coordinates(i, j).first);
                         if ((i == selected_item.first) && (j == selected_item.second))
                         {
                             Pen pen = new Pen(Color.Red, 3);

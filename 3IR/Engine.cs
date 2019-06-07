@@ -143,7 +143,7 @@ namespace _3IR
                             map[k + 1][i] = c;
                             k++;
                         }
-                        previous_pisition[k][j].first = i;
+                        previous_pisition[k][i].first = j;
                     }
                 }
             }
