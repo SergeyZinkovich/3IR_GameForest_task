@@ -33,15 +33,17 @@ namespace _3IR
             iteration = 0;
         }
 
-        public static void Add_items_to_fall_animation(List<List<Pair<int, int>>> a)
+        public static void Add_missing_items_to_fall_animation(List<List<int>> a)
         {
             for (int i = 0; i < 8; i++) //TODO: вынести отовсюду размер поля
             {
-                for (int j = 0; j < 8; j++)
+                int k = 0;
+                for (int j = 8 - 1; j >= 0; j--)
                 {
-                    if (a[i][j].first != j)
+                    if (a[j][i] == -1)
                     {
-                        init_position[i][j].first = a[i][j].first;
+                        k--;
+                        init_position[j][i].first = k;
                     }
                 }
             }

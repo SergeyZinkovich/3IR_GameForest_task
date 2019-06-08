@@ -127,6 +127,8 @@ namespace _3IR
                     if (engine.Turn(selected_item.first, selected_item.second, i, j))
                     {
                         Animation_helper.Init_gems_fall_animation(engine.Drop_elements());
+                        Animation_helper.Add_missing_items_to_fall_animation(engine.Get_map());
+                        engine.Regenerate_annihilated_items();
                         Animation_helper.Start_animation();
                     }
                     selected_item.second = -1;
