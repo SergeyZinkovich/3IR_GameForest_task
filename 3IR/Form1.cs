@@ -15,7 +15,8 @@ namespace _3IR
     {
         private int game_time_rest;
         private Graphics g;
-        private Pair<int, int> selected_item;
+        private Pair<int, int> selected_item, swap_item;
+        private bool turn_in_progress;
         private Engine engine;
         private Button menuButton;
 
@@ -58,6 +59,7 @@ namespace _3IR
             engine = new Engine(8, 8);
             game_time_rest = 60;
             selected_item = new Pair<int, int>(-1, -1);
+            swap_item = new Pair<int, int>(-1, -1);
         }
 
         public void End_game()
@@ -122,17 +124,11 @@ namespace _3IR
                 int i = (e.Location.Y - 44) / 64;
                 if (((i == selected_item.first) && (Math.Abs(j - selected_item.second) == 1)) || ((j == selected_item.second) && (Math.Abs(i - selected_item.first) == 1)))
                 {
-                    //Animation_helper.Init_swap_animation(selected_item.first, selected_item.second, i, j);
-                    //Animation_helper.Start_animation();
-                    if (engine.Turn(selected_item.first, selected_item.second, i, j))
-                    {
-                        Animation_helper.Init_gems_fall_animation(engine.Drop_elements());
-                        Animation_helper.Add_missing_items_to_fall_animation(engine.Get_map());
-                        engine.Regenerate_annihilated_items();
-                        Animation_helper.Start_animation();
-                    }
-                    selected_item.second = -1;
-                    selected_item.first = -1;
+                    turn_in_progress = true;
+                    swap_item.first = i;
+                    swap_item.second = j;
+                    Animation_helper.Init_swap_animation(selected_item.first, selected_item.second, i, j);
+                    Animation_helper.Start_animation();
                 }
                 else
                 {
@@ -142,8 +138,32 @@ namespace _3IR
             }
         }
 
+        public void Turn()
+        {
+            if (engine.Turn(selected_item.first, selected_item.second, swap_item.first, swap_item.second))
+            {
+                Animation_helper.Init_gems_fall_animation(engine.Drop_elements());
+                Animation_helper.Add_missing_items_to_fall_animation(engine.Get_map());
+                engine.Regenerate_annihilated_items();
+                Animation_helper.Start_animation();
+            }
+            else
+            {
+                Animation_helper.Init_revers_swap_animation(selected_item.first, selected_item.second,
+                    swap_item.first, swap_item.second);
+                Animation_helper.Start_animation();
+            }
+            selected_item.second = -1;
+            selected_item.first = -1;
+            turn_in_progress = false;
+        }
+
         public void Draw_field(List<List<int>> field)
         {
+            if(turn_in_progress && !Animation_helper.is_Animation_set())
+            {
+                Turn();
+            }
             g.Clear(Color.White);
             for (int i = 0; i < 8; i++)
             {
@@ -155,7 +175,7 @@ namespace _3IR
                         Image image = new Bitmap((Image)Properties.Resources.ResourceManager.GetObject(name, Properties.Resources.Culture));
                         g.DrawImage(image, 194 + Animation_helper.Get_coordinates(i, j).second,
                             44 + Animation_helper.Get_coordinates(i, j).first);
-                        if ((i == selected_item.first) && (j == selected_item.second))
+                        if ((i == selected_item.first) && (j == selected_item.second) && !Animation_helper.is_Animation_set())
                         {
                             Pen pen = new Pen(Color.Red, 3);
                             g.DrawRectangle(pen, 194 + j * 64, 44 + i * 64, 64, 64);

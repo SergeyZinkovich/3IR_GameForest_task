@@ -74,6 +74,31 @@ namespace _3IR
             iteration = 0;
         }
 
+        public static void Init_revers_swap_animation(int y1, int x1, int y2, int x2)
+        {
+            init_position = new List<List<Pair<int, int>>>();
+            destinations = new List<List<Pair<int, int>>>();
+            for (int i = 0; i < 8; i++)  //TODO: вынести отовсюду размер поля
+            {
+                init_position.Add(new List<Pair<int, int>>());
+                destinations.Add(new List<Pair<int, int>>());
+                for (int j = 0; j < 8; j++)
+                {
+                    init_position[i].Add(new Pair<int, int>(i, j));
+                    destinations[i].Add(new Pair<int, int>(i, j));
+                }
+            }
+            init_position[y1][x1].first = y2;
+            init_position[y1][x1].second = x2;
+            init_position[y2][x2].first = y1;
+            init_position[y2][x2].second = x1;
+            destinations[y1][x1].first = y1;
+            destinations[y1][x1].second = x1;
+            destinations[y2][x2].first = y2;
+            destinations[y2][x2].second = x2;
+            iteration = 0;
+        }
+
         public static void Start_animation()
         {
             animation_set = true;
