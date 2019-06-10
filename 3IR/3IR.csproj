@@ -84,8 +84,16 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\f31eb54c2dcf1b3.png" />
+    <None Include="Properties\background.png" />
+    <None Include="Properties\Apple_iOS_7_iPhone_5S_HD_Desktop_Wallpaper_24_1024x768.png" />
     <Content Include="Properties\diamond-0.png" />
     <Content Include="Properties\diamond-1.png" />
+    <None Include="Properties\diamond-12.png" />
+    <None Include="Properties\diamond-13.png" />
+    <None Include="Properties\diamond-14.png" />
+    <None Include="Properties\diamond-10.png" />
+    <None Include="Properties\diamond-11.png" />
     <Content Include="Properties\diamond-2.png" />
     <Content Include="Properties\diamond-3.png" />
     <Content Include="Properties\diamond-4.png" />

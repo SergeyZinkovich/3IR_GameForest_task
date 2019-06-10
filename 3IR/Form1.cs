@@ -183,7 +183,7 @@ namespace _3IR
             else if (!Animation_helper.is_Animation_set()) {
                 Annihilate();
             }
-            g.Clear(Color.White);
+            g.DrawImage((Image)Properties.Resources.background, 0, 0, 900, 600);
             for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 8; j++)
