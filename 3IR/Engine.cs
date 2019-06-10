@@ -155,21 +155,6 @@ namespace _3IR
             return previous_pisition;
         }
 
-        /*public bool Turn(int y1, int x1, int y2, int x2)
-        {
-            int c = map[y1][x1];
-            map[y1][x1] = map[y2][x2];
-            map[y2][x2] = c;
-            if (!Annihilate())
-            {
-                c = map[y1][x1];
-                map[y1][x1] = map[y2][x2];
-                map[y2][x2] = c;
-                return false;
-            }
-            return true;
-        }*/
-
         public void Swap_items(int y1, int x1, int y2, int x2)
         {
             int c = map[y1][x1];

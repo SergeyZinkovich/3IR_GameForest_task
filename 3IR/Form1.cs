@@ -52,6 +52,8 @@ namespace _3IR
             label1.Enabled = true;
             label2.Enabled = true;
             label1.Show();
+            label2.Location = new Point(755, 90);
+            label2.Text = "Score: 0";
             label2.Show();
             pictureBox1.Show();
             timer1.Enabled = true;
@@ -63,6 +65,7 @@ namespace _3IR
             game_time_rest = game_duration;
             selected_item = new Pair<int, int>(-1, -1);
             swap_item = new Pair<int, int>(-1, -1);
+            turn_in_progress = false;
         }
 
         public void End_game()
@@ -70,8 +73,7 @@ namespace _3IR
             pictureBox1.Enabled = false;
             pictureBox1.Hide();
             label1.Enabled = false;
-            label2.Enabled = false;
-            label2.Hide();
+            label2.Location = new Point(395, 230);
             label1.Hide();
             timer1.Enabled = false;
             timer2.Enabled = false;
@@ -96,6 +98,8 @@ namespace _3IR
             Animation_helper.Stop_animation();
             menuButton.Enabled = false;
             menuButton.Hide();
+            label2.Enabled = false;
+            label2.Hide();
         }
 
         private void timer1_Tick(object sender, EventArgs e)
