@@ -145,15 +145,10 @@ namespace _3IR
 
         public void Turn()
         {
-            if (engine.Turn(selected_item.first, selected_item.second, swap_item.first, swap_item.second))
+            engine.Swap_items(selected_item.first, selected_item.second, swap_item.first, swap_item.second);
+            if (!Annihilate())
             {
-                Animation_helper.Init_gems_fall_animation(engine.Drop_elements());
-                Animation_helper.Add_missing_items_to_fall_animation(engine.Get_map());
-                engine.Regenerate_annihilated_items();
-                Animation_helper.Start_animation();
-            }
-            else
-            {
+                engine.Swap_items(selected_item.first, selected_item.second, swap_item.first, swap_item.second);
                 Animation_helper.Init_revers_swap_animation(selected_item.first, selected_item.second,
                     swap_item.first, swap_item.second);
                 Animation_helper.Start_animation();
@@ -161,16 +156,28 @@ namespace _3IR
             selected_item.second = -1;
             selected_item.first = -1;
             turn_in_progress = false;
+        }
 
-            //
-            label2.Text = "Score: " + engine.Get_score().ToString();
+        public bool Annihilate()
+        {
+            if(engine.Annihilate()){
+                Animation_helper.Init_gems_fall_animation(engine.Drop_elements());
+                Animation_helper.Add_missing_items_to_fall_animation(engine.Get_map());
+                engine.Regenerate_annihilated_items();
+                Animation_helper.Start_animation();
+                return true;
+            }
+            return false;
         }
 
         public void Draw_field(List<List<int>> field)
         {
-            if(turn_in_progress && !Animation_helper.is_Animation_set())
+            if (turn_in_progress && !Animation_helper.is_Animation_set())
             {
                 Turn();
+            }
+            else if (!Animation_helper.is_Animation_set()) {
+                Annihilate();
             }
             g.Clear(Color.White);
             for (int i = 0; i < 8; i++)
@@ -191,6 +198,7 @@ namespace _3IR
                     }
                 }
             }
+            label2.Text = "Score: " + engine.Get_score().ToString();
             pictureBox1.Invalidate();
         }
 
