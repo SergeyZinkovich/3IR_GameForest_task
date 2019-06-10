@@ -51,6 +51,7 @@ namespace _3IR
             pictureBox1.Enabled = true;
             label1.Enabled = true;
             label2.Enabled = true;
+            label1.Text = game_duration.ToString();
             label1.Show();
             label2.Location = new Point(755, 90);
             label2.Text = "Score: 0";
@@ -110,7 +111,7 @@ namespace _3IR
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
-            Pen pen = new Pen(Color.Black);
+            /*Pen pen = new Pen(Color.Black);
             for (int i = 0; i < 9; i++)
             {
                 e.Graphics.DrawLine(pen, 194, 44 + i * 64, 706, 44 + i * 64);
@@ -118,7 +119,7 @@ namespace _3IR
             for (int j = 0; j < 9; j++)
             {
                 e.Graphics.DrawLine(pen, 194 + j * 64, 44, 194 + j * 64, 556);
-            }
+            }*/
         }
 
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
