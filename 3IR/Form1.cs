@@ -13,6 +13,7 @@ namespace _3IR
 {
     public partial class Form1 : Form
     {
+        private const int game_duration = 60;
         private int game_time_rest;
         private Graphics g;
         private Pair<int, int> selected_item, swap_item;
@@ -49,7 +50,9 @@ namespace _3IR
 
             pictureBox1.Enabled = true;
             label1.Enabled = true;
+            label2.Enabled = true;
             label1.Show();
+            label2.Show();
             pictureBox1.Show();
             timer1.Enabled = true;
             timer2.Enabled = true;
@@ -57,7 +60,7 @@ namespace _3IR
             pictureBox1.Image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             g = Graphics.FromImage(pictureBox1.Image);
             engine = new Engine(8, 8);
-            game_time_rest = 60;
+            game_time_rest = game_duration;
             selected_item = new Pair<int, int>(-1, -1);
             swap_item = new Pair<int, int>(-1, -1);
         }
@@ -67,6 +70,8 @@ namespace _3IR
             pictureBox1.Enabled = false;
             pictureBox1.Hide();
             label1.Enabled = false;
+            label2.Enabled = false;
+            label2.Hide();
             label1.Hide();
             timer1.Enabled = false;
             timer2.Enabled = false;
@@ -156,6 +161,9 @@ namespace _3IR
             selected_item.second = -1;
             selected_item.first = -1;
             turn_in_progress = false;
+
+            //
+            label2.Text = "Score: " + engine.Get_score().ToString();
         }
 
         public void Draw_field(List<List<int>> field)

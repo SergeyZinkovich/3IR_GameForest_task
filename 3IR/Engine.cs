@@ -26,6 +26,11 @@ namespace _3IR
             return map;
         }
 
+        public int Get_score()
+        {
+            return score;
+        }
+
         public void Generate_map(int n, int m)
         {
             Random rnd = new Random();
@@ -109,7 +114,7 @@ namespace _3IR
                     }
                 }
             }
-
+            score += 10 * delete_marks.Count;
             foreach (Pair<int, int> pair in delete_marks)
             {
                 map[pair.first][pair.second] = -1;

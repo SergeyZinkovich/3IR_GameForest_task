@@ -8,7 +8,7 @@ namespace _3IR
 {
     static class Animation_helper
     {
-        private const int animation_duration = 8;
+        private const int animation_duration = 4;
 
         private static bool animation_set = false;
 
