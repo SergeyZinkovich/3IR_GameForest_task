@@ -105,7 +105,7 @@ namespace _3IR
                         }
                         else
                         {
-                            delete_marks.Add(new Pair<int, int>(i, j));
+                            delete_marks.Add(new Pair<int, int>(j, i));
                         }
                     }
                     else
