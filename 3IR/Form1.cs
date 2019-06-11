@@ -27,18 +27,22 @@ namespace _3IR
         public Form1()
         {
             InitializeComponent();
+            menuButton = new Button();
+            menuButton.Location = new Point(395, 290);
+            menuButton.Enabled = false;
+            menuButton.Hide();
+            this.Controls.Add(menuButton);
             ShowMenu();
         }
 
         public void ShowMenu()
         {
-            menuButton = new Button();  //TODO: убрать пересоздание
-            menuButton.Location = new Point(395, 290);
+            menuButton.Enabled = true;
+            menuButton.Show();
             menuButton.Text = "Play";
             menuButton.Width = 150;
             menuButton.Height = 80;
             menuButton.Click += PlayButtonClick;
-            this.Controls.Add(menuButton);
         }
 
         public void PlayButtonClick(object sender, EventArgs e)
@@ -48,6 +52,7 @@ namespace _3IR
 
         public void StartGame()
         {
+            menuButton.Click -= PlayButtonClick;
             menuButton.Hide();
             menuButton.Enabled = false;
 
@@ -83,13 +88,12 @@ namespace _3IR
             drawTimer.Enabled = false;
             gameDurationTimer.Enabled = false;
 
-            menuButton = new Button();
-            menuButton.Location = new Point(395, 290);
+            menuButton.Enabled = true;
+            menuButton.Show();
             menuButton.Text = "Ok";
             menuButton.Width = 150;
             menuButton.Height = 80;
             menuButton.Click += EndButtonClick;
-            this.Controls.Add(menuButton);
         }
 
         public void EndButtonClick(object sender, EventArgs e)
