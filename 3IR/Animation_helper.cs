@@ -6,26 +6,29 @@ using System.Threading.Tasks;
 
 namespace _3IR
 {
-    static class Animation_helper
+    class Animation_helper
     {
         private const int animation_duration = 8;
+        private bool animation_set = false;
+        private List<List<Pair<int, int>>> init_position;
+        private List<List<Pair<int, int>>> destinations;
+        private int iteration;
+        int height, width;
 
-        private static bool animation_set = false;
+        public Animation_helper(int n, int m)
+        {
+            height = m;
+            width = n;
+        }
 
-        private static List<List<Pair<int, int>>> init_position;
-
-        private static List<List<Pair<int, int>>> destinations;
-
-        private static int iteration;
-
-        public static void Init_gems_fall_animation(List<List<Pair<int, int>>> a)
+        public void Init_gems_fall_animation(List<List<Pair<int, int>>> a)
         {
             init_position = a;
             destinations = new List<List<Pair<int, int>>>();
-            for (int i = 0; i < 8; i++)  //TODO: вынести отовсюду размер поля
+            for (int i = 0; i < height; i++)  //TODO: вынести отовсюду размер поля
             {
                 destinations.Add(new List<Pair<int, int>>());
-                for (int j = 0; j < 8; j++)
+                for (int j = 0; j < width; j++)
                 {
                     destinations[i].Add(new Pair<int, int>(i, j));
                 }
@@ -33,12 +36,12 @@ namespace _3IR
             iteration = 0;
         }
 
-        public static void Add_missing_items_to_fall_animation(List<List<int>> a)
+        public void Add_missing_items_to_fall_animation(List<List<int>> a)
         {
-            for (int i = 0; i < 8; i++) //TODO: вынести отовсюду размер поля
+            for (int i = 0; i < width; i++) //TODO: вынести отовсюду размер поля
             {
                 int k = 0;
-                for (int j = 8 - 1; j >= 0; j--)
+                for (int j = height - 1; j >= 0; j--)
                 {
                     if (a[j][i] == -1)
                     {
@@ -49,15 +52,15 @@ namespace _3IR
             }
         }
 
-        public static void Init_swap_animation(int y1, int x1, int y2, int x2)
+        public void Init_swap_animation(int y1, int x1, int y2, int x2)
         {
             init_position = new List<List<Pair<int, int>>>();
             destinations = new List<List<Pair<int, int>>>();
-            for (int i = 0; i < 8; i++)  //TODO: вынести отовсюду размер поля
+            for (int i = 0; i < height; i++)  //TODO: вынести отовсюду размер поля
             {
                 init_position.Add(new List<Pair<int, int>>());
                 destinations.Add(new List<Pair<int, int>>());
-                for (int j = 0; j < 8; j++)
+                for (int j = 0; j < width; j++)
                 {
                     init_position[i].Add(new Pair<int, int>(i, j));
                     destinations[i].Add(new Pair<int, int>(i, j));
@@ -74,15 +77,15 @@ namespace _3IR
             iteration = 0;
         }
 
-        public static void Init_revers_swap_animation(int y1, int x1, int y2, int x2)
+        public void Init_revers_swap_animation(int y1, int x1, int y2, int x2)
         {
             init_position = new List<List<Pair<int, int>>>();
             destinations = new List<List<Pair<int, int>>>();
-            for (int i = 0; i < 8; i++)  //TODO: вынести отовсюду размер поля
+            for (int i = 0; i < height; i++)  //TODO: вынести отовсюду размер поля
             {
                 init_position.Add(new List<Pair<int, int>>());
                 destinations.Add(new List<Pair<int, int>>());
-                for (int j = 0; j < 8; j++)
+                for (int j = 0; j < width; j++)
                 {
                     init_position[i].Add(new Pair<int, int>(i, j));
                     destinations[i].Add(new Pair<int, int>(i, j));
@@ -99,12 +102,12 @@ namespace _3IR
             iteration = 0;
         }
 
-        public static void Start_animation()
+        public void Start_animation()
         {
             animation_set = true;
         }
 
-        public static Pair<int, int> Get_coordinates(int i, int j)
+        public Pair<int, int> Get_coordinates(int i, int j)
         {
             if (!animation_set)
             {
@@ -118,7 +121,7 @@ namespace _3IR
             return ans;
         }
 
-        public static void Iteration_inc()
+        public void Iteration_inc()
         {
             if (animation_set)
             {
@@ -130,7 +133,7 @@ namespace _3IR
             }
         }
 
-        public static void Stop_animation()
+        public void Stop_animation()
         {
             if (animation_set)
             {
@@ -141,7 +144,7 @@ namespace _3IR
             }
         }
 
-        public static bool is_Animation_set()
+        public bool is_Animation_set()
         {
             return animation_set;
         }

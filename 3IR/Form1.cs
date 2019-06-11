@@ -14,12 +14,14 @@ namespace _3IR
     public partial class Form1 : Form
     {
         private const int game_duration = 60;
+        private const int height = 8, width = 8;
         private int game_time_rest;
         private Graphics g;
         private Pair<int, int> selected_item, swap_item;
         private bool turn_in_progress;
         private Engine engine;
         private Button menuButton;
+        private Animation_helper animator;
 
         public Form1()
         {
@@ -63,6 +65,7 @@ namespace _3IR
             pictureBox1.Image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             g = Graphics.FromImage(pictureBox1.Image);
             engine = new Engine(8, 8);
+            animator = new Animation_helper(width, height);
             game_time_rest = game_duration;
             selected_item = new Pair<int, int>(-1, -1);
             swap_item = new Pair<int, int>(-1, -1);
@@ -96,7 +99,7 @@ namespace _3IR
 
         public void Close_endgame()
         {
-            Animation_helper.Stop_animation();
+            animator.Stop_animation();
             menuButton.Enabled = false;
             menuButton.Hide();
             label2.Enabled = false;
@@ -105,26 +108,13 @@ namespace _3IR
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            Animation_helper.Iteration_inc();
+            animator.Iteration_inc();
             Draw_field(engine.Get_map());
-        }
-
-        private void pictureBox1_Paint(object sender, PaintEventArgs e)
-        {
-            /*Pen pen = new Pen(Color.Black);
-            for (int i = 0; i < 9; i++)
-            {
-                e.Graphics.DrawLine(pen, 194, 44 + i * 64, 706, 44 + i * 64);
-            }
-            for (int j = 0; j < 9; j++)
-            {
-                e.Graphics.DrawLine(pen, 194 + j * 64, 44, 194 + j * 64, 556);
-            }*/
         }
 
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
-            if (Animation_helper.is_Animation_set())
+            if (animator.is_Animation_set())
             {
                 return;
             }
@@ -137,8 +127,8 @@ namespace _3IR
                     turn_in_progress = true;
                     swap_item.first = i;
                     swap_item.second = j;
-                    Animation_helper.Init_swap_animation(selected_item.first, selected_item.second, i, j);
-                    Animation_helper.Start_animation();
+                    animator.Init_swap_animation(selected_item.first, selected_item.second, i, j);
+                    animator.Start_animation();
                 }
                 else
                 {
@@ -154,9 +144,9 @@ namespace _3IR
             if (!Annihilate())
             {
                 engine.Swap_items(selected_item.first, selected_item.second, swap_item.first, swap_item.second);
-                Animation_helper.Init_revers_swap_animation(selected_item.first, selected_item.second,
+                animator.Init_revers_swap_animation(selected_item.first, selected_item.second,
                     swap_item.first, swap_item.second);
-                Animation_helper.Start_animation();
+                animator.Start_animation();
             }
             selected_item.second = -1;
             selected_item.first = -1;
@@ -166,10 +156,10 @@ namespace _3IR
         public bool Annihilate()
         {
             if(engine.Annihilate()){
-                Animation_helper.Init_gems_fall_animation(engine.Drop_elements());
-                Animation_helper.Add_missing_items_to_fall_animation(engine.Get_map());
+                animator.Init_gems_fall_animation(engine.Drop_elements());
+                animator.Add_missing_items_to_fall_animation(engine.Get_map());
                 engine.Regenerate_annihilated_items();
-                Animation_helper.Start_animation();
+                animator.Start_animation();
                 return true;
             }
             return false;
@@ -177,11 +167,11 @@ namespace _3IR
 
         public void Draw_field(List<List<int>> field)
         {
-            if (turn_in_progress && !Animation_helper.is_Animation_set())
+            if (turn_in_progress && !animator.is_Animation_set())
             {
                 Turn();
             }
-            else if (!Animation_helper.is_Animation_set()) {
+            else if (!animator.is_Animation_set()) {
                 Annihilate();
             }
             g.DrawImage((Image)Properties.Resources.background, 0, 0, 900, 600);
@@ -193,9 +183,9 @@ namespace _3IR
                     {
                         String name = "diamond_" + field[i][j].ToString();
                         Image image = new Bitmap((Image)Properties.Resources.ResourceManager.GetObject(name, Properties.Resources.Culture));
-                        g.DrawImage(image, 194 + Animation_helper.Get_coordinates(i, j).second,
-                            44 + Animation_helper.Get_coordinates(i, j).first);
-                        if ((i == selected_item.first) && (j == selected_item.second) && !Animation_helper.is_Animation_set())
+                        g.DrawImage(image, 194 + animator.Get_coordinates(i, j).second,
+                            44 + animator.Get_coordinates(i, j).first);
+                        if ((i == selected_item.first) && (j == selected_item.second) && !animator.is_Animation_set())
                         {
                             Pen pen = new Pen(Color.Red, 3);
                             g.DrawRectangle(pen, 194 + j * 64, 44 + i * 64, 64, 64);
