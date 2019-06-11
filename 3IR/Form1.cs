@@ -127,7 +127,8 @@ namespace _3IR
             {
                 int j = (e.Location.X - 194) / 64;
                 int i = (e.Location.Y - 44) / 64;
-                if (((i == selectedItem.first) && (Math.Abs(j - selectedItem.second) == 1)) || ((j == selectedItem.second) && (Math.Abs(i - selectedItem.first) == 1)))
+                if (((i == selectedItem.first) && (Math.Abs(j - selectedItem.second) == 1)) ||
+                    ((j == selectedItem.second) && (Math.Abs(i - selectedItem.first) == 1)))
                 {
                     turnInProgress = true;
                     swapItem.first = i;
@@ -187,7 +188,8 @@ namespace _3IR
                     if (field[i][j] != -1)
                     {
                         String name = "diamond_" + field[i][j].ToString();
-                        Image image = new Bitmap((Image)Properties.Resources.ResourceManager.GetObject(name, Properties.Resources.Culture));
+                        Image image = new Bitmap((Image)Properties.Resources.ResourceManager.GetObject(name,
+                            Properties.Resources.Culture));
                         g.DrawImage(image, 194 + animator.GetCoordinates(i, j).second,
                             44 + animator.GetCoordinates(i, j).first);
                         if ((i == selectedItem.first) && (j == selectedItem.second) && !animator.IsAnimationSet())
