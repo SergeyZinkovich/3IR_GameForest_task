@@ -30,61 +30,61 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.label1 = new System.Windows.Forms.Label();
-            this.timer2 = new System.Windows.Forms.Timer(this.components);
-            this.label2 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.pictureBox = new System.Windows.Forms.PictureBox();
+            this.drawTimer = new System.Windows.Forms.Timer(this.components);
+            this.timeLabel = new System.Windows.Forms.Label();
+            this.gameDurationTimer = new System.Windows.Forms.Timer(this.components);
+            this.scoreLabel = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.SuspendLayout();
             // 
-            // pictureBox1
+            // pictureBox
             // 
-            this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.pictureBox1.Enabled = false;
-            this.pictureBox1.Location = new System.Drawing.Point(2, 5);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(900, 600);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Visible = false;
-            this.pictureBox1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseClick);
+            this.pictureBox.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.pictureBox.Enabled = false;
+            this.pictureBox.Location = new System.Drawing.Point(2, 5);
+            this.pictureBox.Name = "pictureBox";
+            this.pictureBox.Size = new System.Drawing.Size(900, 600);
+            this.pictureBox.TabIndex = 0;
+            this.pictureBox.TabStop = false;
+            this.pictureBox.Visible = false;
+            this.pictureBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.PictureBoxMouseClick);
             // 
-            // timer1
+            // drawTimer
             // 
-            this.timer1.Interval = 50;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this.drawTimer.Interval = 50;
+            this.drawTimer.Tick += new System.EventHandler(this.DrawTimerTick);
             // 
-            // label1
+            // timeLabel
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.AutoSize = true;
-            this.label1.Enabled = false;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(785, 29);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(64, 46);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "60";
-            this.label1.Visible = false;
+            this.timeLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.timeLabel.AutoSize = true;
+            this.timeLabel.Enabled = false;
+            this.timeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.timeLabel.Location = new System.Drawing.Point(785, 29);
+            this.timeLabel.Name = "timeLabel";
+            this.timeLabel.Size = new System.Drawing.Size(64, 46);
+            this.timeLabel.TabIndex = 1;
+            this.timeLabel.Text = "60";
+            this.timeLabel.Visible = false;
             // 
-            // timer2
+            // gameDurationTimer
             // 
-            this.timer2.Interval = 1000;
-            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
+            this.gameDurationTimer.Interval = 1000;
+            this.gameDurationTimer.Tick += new System.EventHandler(this.GameDurationTimerTick);
             // 
-            // label2
+            // scoreLabel
             // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label2.AutoSize = true;
-            this.label2.Enabled = false;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(735, 90);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(115, 31);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Score: 0";
-            this.label2.Visible = false;
+            this.scoreLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.scoreLabel.AutoSize = true;
+            this.scoreLabel.Enabled = false;
+            this.scoreLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.scoreLabel.Location = new System.Drawing.Point(735, 90);
+            this.scoreLabel.Name = "scoreLabel";
+            this.scoreLabel.Size = new System.Drawing.Size(115, 31);
+            this.scoreLabel.TabIndex = 2;
+            this.scoreLabel.Text = "Score: 0";
+            this.scoreLabel.Visible = false;
             // 
             // Form1
             // 
@@ -93,13 +93,13 @@
             this.BackColor = System.Drawing.SystemColors.Control;
             this.BackgroundImage = global::_3IR.Properties.Resources.background;
             this.ClientSize = new System.Drawing.Size(904, 606);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.scoreLabel);
+            this.Controls.Add(this.timeLabel);
+            this.Controls.Add(this.pictureBox);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "3IR";
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -107,11 +107,11 @@
 
         #endregion
 
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Timer timer2;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.PictureBox pictureBox;
+        private System.Windows.Forms.Timer drawTimer;
+        private System.Windows.Forms.Label timeLabel;
+        private System.Windows.Forms.Timer gameDurationTimer;
+        private System.Windows.Forms.Label scoreLabel;
     }
 }
 

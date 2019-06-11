@@ -11,27 +11,27 @@ namespace _3IR
         List<List<int>> map;
         int score = 0;
 
-        public Engine(int n, int m)
+        public Engine(int n, int m, int gemesCount)
         {
-            Generate_map(n, m);
+            GenerateMap(n, m, gemesCount);
             while (Annihilate())
             {
-                Regenerate_annihilated_items();
+                RegenerateAnnihilatedItems();
             }
             score = 0;
         }
 
-        public List<List<int>> Get_map()
+        public List<List<int>> GetMap()
         {
             return map;
         }
 
-        public int Get_score()
+        public int GetScore()
         {
             return score;
         }
 
-        public void Generate_map(int n, int m)
+        public void GenerateMap(int n, int m, int gemesCount)
         {
             Random rnd = new Random();
             map = new List<List<int>>();
@@ -40,12 +40,12 @@ namespace _3IR
                 map.Add(new List<int>());
                 for (int j = 0; j < m; j++)
                 {
-                    map[i].Add(rnd.Next() % 5);
+                    map[i].Add(rnd.Next() % gemesCount);
                 }
             }
         }
 
-        public void Regenerate_annihilated_items()
+        public void RegenerateAnnihilatedItems()
         {
             Random rnd = new Random();
             for (int i = 0; i < map.Count; i++)
@@ -62,7 +62,7 @@ namespace _3IR
 
         public bool Annihilate()
         {
-            List<Pair<int, int>> delete_marks = new List<Pair<int, int>>();
+            List<Pair<int, int>> deleteMarks = new List<Pair<int, int>>();
             bool in_seq = false;
             for (int i = 0; i < map.Count(); i++)
             {
@@ -73,13 +73,13 @@ namespace _3IR
                         if (!in_seq)
                         {
                             in_seq = true;
-                            delete_marks.Add(new Pair<int, int>(i, j));
-                            delete_marks.Add(new Pair<int, int>(i, j - 1));
-                            delete_marks.Add(new Pair<int, int>(i, j - 2));
+                            deleteMarks.Add(new Pair<int, int>(i, j));
+                            deleteMarks.Add(new Pair<int, int>(i, j - 1));
+                            deleteMarks.Add(new Pair<int, int>(i, j - 2));
                         }
                         else
                         {
-                            delete_marks.Add(new Pair<int, int>(i, j));
+                            deleteMarks.Add(new Pair<int, int>(i, j));
                         }
                     }
                     else
@@ -99,13 +99,13 @@ namespace _3IR
                         if (!in_seq)
                         {
                             in_seq = true;
-                            delete_marks.Add(new Pair<int, int>(j, i));
-                            delete_marks.Add(new Pair<int, int>(j - 1, i));
-                            delete_marks.Add(new Pair<int, int>(j - 2, i));
+                            deleteMarks.Add(new Pair<int, int>(j, i));
+                            deleteMarks.Add(new Pair<int, int>(j - 1, i));
+                            deleteMarks.Add(new Pair<int, int>(j - 2, i));
                         }
                         else
                         {
-                            delete_marks.Add(new Pair<int, int>(j, i));
+                            deleteMarks.Add(new Pair<int, int>(j, i));
                         }
                     }
                     else
@@ -114,24 +114,24 @@ namespace _3IR
                     }
                 }
             }
-            score += 10 * delete_marks.Count;
-            foreach (Pair<int, int> pair in delete_marks)
+            score += 10 * deleteMarks.Count;
+            foreach (Pair<int, int> pair in deleteMarks)
             {
                 map[pair.first][pair.second] = -1;
             }
 
-            return delete_marks.Count != 0;
+            return deleteMarks.Count != 0;
         }
 
-        public List<List<Pair<int, int>>> Drop_elements()
+        public List<List<Pair<int, int>>> DropElements()
         {
-            List<List<Pair<int, int>>> previous_pisition = new List<List<Pair<int, int>>>();
+            List<List<Pair<int, int>>> previousPosition = new List<List<Pair<int, int>>>();
             for (int i = 0; i < map.Count; i++)
             {
-                previous_pisition.Add(new List<Pair<int, int>>());
+                previousPosition.Add(new List<Pair<int, int>>());
                 for (int j = 0; j < map[0].Count; j++)
                 {
-                    previous_pisition[i].Add(new Pair<int, int>(i, j));
+                    previousPosition[i].Add(new Pair<int, int>(i, j));
                 }
             }
             for (int i = 0; i < map.Count; i++)
@@ -148,14 +148,14 @@ namespace _3IR
                             map[k + 1][i] = c;
                             k++;
                         }
-                        previous_pisition[k][i].first = j;
+                        previousPosition[k][i].first = j;
                     }
                 }
             }
-            return previous_pisition;
+            return previousPosition;
         }
 
-        public void Swap_items(int y1, int x1, int y2, int x2)
+        public void SwapItems(int y1, int x1, int y2, int x2)
         {
             int c = map[y1][x1];
             map[y1][x1] = map[y2][x2];

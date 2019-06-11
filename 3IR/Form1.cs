@@ -11,110 +11,111 @@ using System.Threading;
 
 namespace _3IR
 {
-    public partial class Form1 : Form
+    public partial class Form1 : System.Windows.Forms.Form
     {
-        private const int game_duration = 60;
+        private const int gameDuration = 60;
         private const int height = 8, width = 8;
-        private int game_time_rest;
+        private const int gemesCount = 5;
+        private int gameTimeRest;
         private Graphics g;
-        private Pair<int, int> selected_item, swap_item;
-        private bool turn_in_progress;
+        private Pair<int, int> selectedItem, swapItem;
+        private bool turnInProgress;
         private Engine engine;
         private Button menuButton;
-        private Animation_helper animator;
+        private AnimationHelper animator;
 
         public Form1()
         {
             InitializeComponent();
-            Show_menu();
+            ShowMenu();
         }
 
-        public void Show_menu()
+        public void ShowMenu()
         {
             menuButton = new Button();  //TODO: убрать пересоздание
             menuButton.Location = new Point(395, 290);
             menuButton.Text = "Play";
             menuButton.Width = 150;
             menuButton.Height = 80;
-            menuButton.Click += Play_button_Click;
+            menuButton.Click += PlayButtonClick;
             this.Controls.Add(menuButton);
         }
 
-        public void Play_button_Click(object sender, EventArgs e)
+        public void PlayButtonClick(object sender, EventArgs e)
         {
-            Start_game();
+            StartGame();
         }
 
-        public void Start_game()
+        public void StartGame()
         {
             menuButton.Hide();
             menuButton.Enabled = false;
 
-            pictureBox1.Enabled = true;
-            label1.Enabled = true;
-            label2.Enabled = true;
-            label1.Text = game_duration.ToString();
-            label1.Show();
-            label2.Location = new Point(755, 90);
-            label2.Text = "Score: 0";
-            label2.Show();
-            pictureBox1.Show();
-            timer1.Enabled = true;
-            timer2.Enabled = true;
+            pictureBox.Enabled = true;
+            timeLabel.Enabled = true;
+            scoreLabel.Enabled = true;
+            timeLabel.Text = gameDuration.ToString();
+            timeLabel.Show();
+            scoreLabel.Location = new Point(755, 90);
+            scoreLabel.Text = "Score: 0";
+            scoreLabel.Show();
+            pictureBox.Show();
+            drawTimer.Enabled = true;
+            gameDurationTimer.Enabled = true;
 
-            pictureBox1.Image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
-            g = Graphics.FromImage(pictureBox1.Image);
-            engine = new Engine(8, 8);
-            animator = new Animation_helper(width, height);
-            game_time_rest = game_duration;
-            selected_item = new Pair<int, int>(-1, -1);
-            swap_item = new Pair<int, int>(-1, -1);
-            turn_in_progress = false;
+            pictureBox.Image = new Bitmap(pictureBox.Width, pictureBox.Height);
+            g = Graphics.FromImage(pictureBox.Image);
+            engine = new Engine(width, height, gemesCount);
+            animator = new AnimationHelper(width, height);
+            gameTimeRest = gameDuration;
+            selectedItem = new Pair<int, int>(-1, -1);
+            swapItem = new Pair<int, int>(-1, -1);
+            turnInProgress = false;
         }
 
-        public void End_game()
+        public void EndGame()
         {
-            pictureBox1.Enabled = false;
-            pictureBox1.Hide();
-            label1.Enabled = false;
-            label2.Location = new Point(395, 230);
-            label1.Hide();
-            timer1.Enabled = false;
-            timer2.Enabled = false;
+            pictureBox.Enabled = false;
+            pictureBox.Hide();
+            timeLabel.Enabled = false;
+            scoreLabel.Location = new Point(395, 230);
+            timeLabel.Hide();
+            drawTimer.Enabled = false;
+            gameDurationTimer.Enabled = false;
 
             menuButton = new Button();
             menuButton.Location = new Point(395, 290);
             menuButton.Text = "Ok";
             menuButton.Width = 150;
             menuButton.Height = 80;
-            menuButton.Click += End_button_Click;
+            menuButton.Click += EndButtonClick;
             this.Controls.Add(menuButton);
         }
 
-        public void End_button_Click(object sender, EventArgs e)
+        public void EndButtonClick(object sender, EventArgs e)
         {
-            Close_endgame();
-            Show_menu();
+            CloseEndgame();
+            ShowMenu();
         }
 
-        public void Close_endgame()
+        public void CloseEndgame()
         {
-            animator.Stop_animation();
+            animator.StopAnimation();
             menuButton.Enabled = false;
             menuButton.Hide();
-            label2.Enabled = false;
-            label2.Hide();
+            scoreLabel.Enabled = false;
+            scoreLabel.Hide();
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void DrawTimerTick(object sender, EventArgs e)
         {
-            animator.Iteration_inc();
-            Draw_field(engine.Get_map());
+            animator.IterationInc();
+            DrawField(engine.GetMap());
         }
 
-        private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
+        private void PictureBoxMouseClick(object sender, MouseEventArgs e)
         {
-            if (animator.is_Animation_set())
+            if (animator.IsAnimationSet())
             {
                 return;
             }
@@ -122,70 +123,70 @@ namespace _3IR
             {
                 int j = (e.Location.X - 194) / 64;
                 int i = (e.Location.Y - 44) / 64;
-                if (((i == selected_item.first) && (Math.Abs(j - selected_item.second) == 1)) || ((j == selected_item.second) && (Math.Abs(i - selected_item.first) == 1)))
+                if (((i == selectedItem.first) && (Math.Abs(j - selectedItem.second) == 1)) || ((j == selectedItem.second) && (Math.Abs(i - selectedItem.first) == 1)))
                 {
-                    turn_in_progress = true;
-                    swap_item.first = i;
-                    swap_item.second = j;
-                    animator.Init_swap_animation(selected_item.first, selected_item.second, i, j);
-                    animator.Start_animation();
+                    turnInProgress = true;
+                    swapItem.first = i;
+                    swapItem.second = j;
+                    animator.InitSwapAnimation(selectedItem.first, selectedItem.second, i, j);
+                    animator.StartAnimation();
                 }
                 else
                 {
-                    selected_item.second = j;
-                    selected_item.first = i;
+                    selectedItem.second = j;
+                    selectedItem.first = i;
                 }
             }
         }
 
         public void Turn()
         {
-            engine.Swap_items(selected_item.first, selected_item.second, swap_item.first, swap_item.second);
+            engine.SwapItems(selectedItem.first, selectedItem.second, swapItem.first, swapItem.second);
             if (!Annihilate())
             {
-                engine.Swap_items(selected_item.first, selected_item.second, swap_item.first, swap_item.second);
-                animator.Init_revers_swap_animation(selected_item.first, selected_item.second,
-                    swap_item.first, swap_item.second);
-                animator.Start_animation();
+                engine.SwapItems(selectedItem.first, selectedItem.second, swapItem.first, swapItem.second);
+                animator.InitReversSwapAnimation(selectedItem.first, selectedItem.second,
+                    swapItem.first, swapItem.second);
+                animator.StartAnimation();
             }
-            selected_item.second = -1;
-            selected_item.first = -1;
-            turn_in_progress = false;
+            selectedItem.second = -1;
+            selectedItem.first = -1;
+            turnInProgress = false;
         }
 
         public bool Annihilate()
         {
             if(engine.Annihilate()){
-                animator.Init_gems_fall_animation(engine.Drop_elements());
-                animator.Add_missing_items_to_fall_animation(engine.Get_map());
-                engine.Regenerate_annihilated_items();
-                animator.Start_animation();
+                animator.InitGemsFallAnimation(engine.DropElements());
+                animator.AddMissingItemsToFallAnimation(engine.GetMap());
+                engine.RegenerateAnnihilatedItems();
+                animator.StartAnimation();
                 return true;
             }
             return false;
         }
 
-        public void Draw_field(List<List<int>> field)
+        public void DrawField(List<List<int>> field)
         {
-            if (turn_in_progress && !animator.is_Animation_set())
+            if (turnInProgress && !animator.IsAnimationSet())
             {
                 Turn();
             }
-            else if (!animator.is_Animation_set()) {
+            else if (!animator.IsAnimationSet()) {
                 Annihilate();
             }
             g.DrawImage((Image)Properties.Resources.background, 0, 0, 900, 600);
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < height; i++)
             {
-                for (int j = 0; j < 8; j++)
+                for (int j = 0; j < width; j++)
                 {
                     if (field[i][j] != -1)
                     {
                         String name = "diamond_" + field[i][j].ToString();
                         Image image = new Bitmap((Image)Properties.Resources.ResourceManager.GetObject(name, Properties.Resources.Culture));
-                        g.DrawImage(image, 194 + animator.Get_coordinates(i, j).second,
-                            44 + animator.Get_coordinates(i, j).first);
-                        if ((i == selected_item.first) && (j == selected_item.second) && !animator.is_Animation_set())
+                        g.DrawImage(image, 194 + animator.GetCoordinates(i, j).second,
+                            44 + animator.GetCoordinates(i, j).first);
+                        if ((i == selectedItem.first) && (j == selectedItem.second) && !animator.IsAnimationSet())
                         {
                             Pen pen = new Pen(Color.Red, 3);
                             g.DrawRectangle(pen, 194 + j * 64, 44 + i * 64, 64, 64);
@@ -193,18 +194,18 @@ namespace _3IR
                     }
                 }
             }
-            label2.Text = "Score: " + engine.Get_score().ToString();
-            pictureBox1.Invalidate();
+            scoreLabel.Text = "Score: " + engine.GetScore().ToString();
+            pictureBox.Invalidate();
         }
 
-        private void timer2_Tick(object sender, EventArgs e)
+        private void GameDurationTimerTick(object sender, EventArgs e)
         {
-            game_time_rest--;
-            if (game_time_rest == 0)
+            gameTimeRest--;
+            if (gameTimeRest == 0)
             {
-                End_game();
+                EndGame();
             }
-            label1.Text = game_time_rest.ToString();
+            timeLabel.Text = gameTimeRest.ToString();
         }
     }
 }
